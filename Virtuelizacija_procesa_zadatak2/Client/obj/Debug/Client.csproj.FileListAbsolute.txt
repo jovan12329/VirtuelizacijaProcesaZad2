@@ -1,0 +1,10 @@
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\bin\Debug\Client.exe.config
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\bin\Debug\Client.exe
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\bin\Debug\Client.pdb
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\bin\Debug\Common.dll
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\bin\Debug\Common.pdb
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\obj\Debug\Client.csproj.CopyComplete
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\obj\Debug\Client.exe
+C:\Users\Jovan\Documents\Projekat\VirtuelizacijaProcesaZad2\Virtuelizacija_procesa_zadatak2\Client\obj\Debug\Client.pdb

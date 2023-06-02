@@ -16,7 +16,7 @@ namespace Virtuelizacija_procesa_zadatak2
             {
                
                 host.Open();
-                Console.WriteLine("Servis je uspesno pokrenut");
+                Console.WriteLine("Ready to proceed files!");
                 Console.ReadKey();
             }
 

@@ -1,34 +1,44 @@
 ﻿using Common.Commands;
+using Common.FileManipulations;
 using Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Virtuelizacija_procesa_zadatak2.InMemoryDataBase;
+using Virtuelizacija_procesa_zadatak2.ManageRecvFile;
 
 namespace Virtuelizacija_procesa_zadatak2.Implementations
 {
     public class SendFile : ISendFile
     {
-        public void Send(string name, byte[] buffer)
-        {
-            InMemoryDataBase.InMemoryDataBase.Instance.InsertFile(name, buffer);
 
-            //Check if directory is valid
+        [OperationBehavior(AutoDisposeParameters = true)]
+        public CSVFileResult Send(FileMemOptions fs)
+        {
+            InMemoryDataBase.InMemoryDataBase.Instance.InsertFile(fs.Name, MoveToArray.FromStreamToByte(fs.Ms));
             var path= ConfigurationManager.AppSettings["path"];
             DirUtils.CheckCreatePath(path);
-            Dictionary<string,byte[]> rec=InMemoryDataBase.InMemoryDataBase.Instance.GetFileData(name);
-            string fullPath = Path.Combine(path, name);
-            FileStream fs = new FileStream(fullPath, FileMode.Create);
-            fs.Write(rec[name], 0, rec[name].Length);
-            Thread.Sleep(1000);
-            fs.Dispose();
-            fs.Close();
-            XmlManipulation.ParseItems(path,name);
+            DirUtils.EmptyDirectory(path);
+
+            FileProcessing fp=new FileProcessing(InMemoryDataBase.InMemoryDataBase.Instance.GetFileData(fs.Name),
+                                                 path,
+                                                 fs.Name);
+            fp.MakeFile();
+            fp.ReadFromXml();
+
+            CSVFileResult cs = FileRetrieving.GetCSVFiles(path);
+            DirUtils.EmptyDirectory(path);
+            Console.WriteLine("Sending back file(s)!");
+            Console.WriteLine();
+            return cs;
+            
+            
         }
 
         

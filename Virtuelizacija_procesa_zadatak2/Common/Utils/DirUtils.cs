@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,21 @@ namespace Common.Utils
 {
     public class DirUtils
     {
+
+        public static void EmptyDirectory(string path) {
+
+            var tempFiles = Directory.GetFiles(path);
+            if (tempFiles.Length <= 0)
+                return;
+
+            foreach (string s in tempFiles) {
+
+                File.Delete(s);
+            
+            }
+
+        
+        }
 
 
         public static bool ValidDirPath(string path)
@@ -27,6 +43,7 @@ namespace Common.Utils
                 DirectoryInfo dir = new DirectoryInfo(path);
                 if (!dir.Exists)
                 {
+
                     dir.Create();
                 }
             }

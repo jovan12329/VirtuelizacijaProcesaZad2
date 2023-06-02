@@ -1,16 +1,16 @@
-﻿using Common.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Virtuelizacija_procesa_zadatak2.Enum;
 
-namespace Common.Items
+namespace Virtuelizacija_procesa_zadatak2.Items
 {
-    [DataContract]
+    
     public class Audit
     {
+        private static int idCntA = 0;
         private int id;
         private DateTime timeStamp;
         private MessageType messageType;
@@ -18,21 +18,21 @@ namespace Common.Items
 
         public Audit() { }
 
-        public Audit(int id, DateTime timeStamp, MessageType messageType, string message)
+        public Audit(DateTime timeStamp, MessageType messageType, string message)
         {
-            this.Id = id;
+            this.Id = ++idCntA;
             this.TimeStamp = timeStamp;
             this.MessageType = messageType;
             this.Message = message;
         }
 
-        [DataMember]
-        public int Id { get => id; set => id = value; }
-        [DataMember]
+        
+        public int Id { get => id; private set => id = value; }
+       
         public DateTime TimeStamp { get => timeStamp; set => timeStamp = value; }
-        [DataMember]
+        
         public MessageType MessageType { get => messageType; set => messageType = value; }
-        [DataMember]
+       
         public string Message { get => message; set => message = value; }
     }
 }

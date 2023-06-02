@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Items
+namespace Virtuelizacija_procesa_zadatak2.Items
 {
-    [DataContract]
+    
     public class ImportedFile
     {
+        private static int idCntI = 0;
         private int id;
         private string fileName;
 
         public ImportedFile() { }
-        public ImportedFile(int id, string fileName)
+        public ImportedFile(string fileName)
         {
-            this.Id = id;
+            this.Id = ++idCntI;
             this.FileName = fileName;
         }
 
-        [DataMember]
-        public int Id { get => id; set => id = value; }
-        [DataMember]
+        
+        public int Id { get => id; private set => id = value; }
+        
         public string FileName { get => fileName; set => fileName = value; }
     }
 }

@@ -46,11 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBManipulation\IAuditingDB.cs" />
     <Compile Include="DBManipulation\IData.cs" />
+    <Compile Include="Enum\MessageType.cs" />
     <Compile Include="Implementations\SendFile.cs" />
     <Compile Include="InMemoryDataBase\InMemoryDataBase.cs" />
+    <Compile Include="Items\Audit.cs" />
+    <Compile Include="Items\ImportedFile.cs" />
+    <Compile Include="Items\Load.cs" />
+    <Compile Include="ManageRecvFile\FileProcessing.cs" />
+    <Compile Include="ManageRecvFile\FileRetrieving.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PubSub\CSVLoading.cs" />
+    <Compile Include="PubSub\LoadingFile.cs" />
+    <Compile Include="PubSub\PubEventArgs.cs" />
+    <Compile Include="PubSub\PubXml.cs" />
+    <Compile Include="TableIdCounter\TableId.cs" />
     <Compile Include="XmlManipulation.cs" />
   </ItemGroup>
   <ItemGroup>

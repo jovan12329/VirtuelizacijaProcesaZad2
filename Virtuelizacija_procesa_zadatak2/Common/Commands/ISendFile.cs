@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.FileManipulations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -12,7 +13,7 @@ namespace Common.Commands
         public interface ISendFile
         {
             [OperationContract]
-            void Send(string name,byte[] buffer);
+            CSVFileResult Send(FileMemOptions fs);
 
         }
     

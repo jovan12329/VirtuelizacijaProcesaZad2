@@ -21,8 +21,11 @@ namespace Client
                 new ChannelFactory<ISendFile>("ServiceName");
             ISendFile proxy = channelBezbednost.CreateChannel();
             var uploadPath = ConfigurationManager.AppSettings["uploadPath"];
+            var downloadPath = ConfigurationManager.AppSettings["downloadPath"];
             DirUtils.CheckCreatePath(uploadPath);
-            DirListening dir = new DirListening(proxy,uploadPath);
+            DirUtils.CheckCreatePath(downloadPath);
+            Console.WriteLine("Listening from directory:" + uploadPath + "...");
+            DirListening dir = new DirListening(proxy,uploadPath,downloadPath);
 
 
             Console.ReadKey();

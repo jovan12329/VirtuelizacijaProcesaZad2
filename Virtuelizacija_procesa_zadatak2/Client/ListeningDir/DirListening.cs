@@ -1,4 +1,6 @@
 ﻿using Common.Commands;
+using Common.FileManipulations;
+using Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,9 +17,12 @@ namespace Client.ListeningDir
         private FileSystemWatcher sysDir;
         private ISendFile sender;
         private bool isCreated = false;
-
-        public DirListening(ISendFile proxy,string path)
+        private string pathConfig;
+        private string download;
+        public DirListening(ISendFile proxy,string path,string download)
         {
+            this.download = download;
+            this.pathConfig = path;
             this.sender = proxy;
             this.sysDir = new FileSystemWatcher(path);
             this.sysDir.NotifyFilter = NotifyFilters.Attributes
@@ -30,7 +35,6 @@ namespace Client.ListeningDir
                                  | NotifyFilters.Size;
 
             this.sysDir.Filter = "*.xml";
-            this.sysDir.IncludeSubdirectories = false;
             this.sysDir.EnableRaisingEvents = true;
             this.sysDir.Changed += OnChanged;
             this.sysDir.Created += OnCreated;
@@ -43,12 +47,26 @@ namespace Client.ListeningDir
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed || isCreated)
+            if (e.ChangeType != WatcherChangeTypes.Changed || isCreated==true)
             {
-                isCreated=false;
+                isCreated = false;
                 return;
             }
             Console.WriteLine($"Changed: {e.FullPath}");
+
+            //Additional variables
+            string name = e.Name;
+            //Sending files
+            CSVFileResult files;
+            SendingFiles(e.FullPath, e.Name, out files);
+            //Recieved files
+            if (files == null)
+                Console.WriteLine("Error occured during processing ! Please try again to send the file !");
+            else
+                RecievedFiles(files);
+
+
+            isCreated = true;
  
         }
 
@@ -56,22 +74,59 @@ namespace Client.ListeningDir
         {
             string value = $"Created:{e.FullPath}";
             Console.WriteLine(value);
-
+            //Additional variables
             string name = e.Name;
-            byte[] data;
-            FileStream fs = new FileStream(e.FullPath, FileMode.Open);
+            //Sending files
+            CSVFileResult files;
+            SendingFiles(e.FullPath,e.Name,out files);
+            //Recieved files
+            if (files == null)
+                Console.WriteLine("Error occured during processing ! Please try again to send the file !");
+            else
+                RecievedFiles(files);
+
+            
+        }
+
+
+        private void SendingFiles(string path,string name,out CSVFileResult csv) {
+
+            //Sending File
+            FileStream fs = new FileStream(path, FileMode.Open);
             MemoryStream ms = new MemoryStream();
             fs.CopyTo(ms);
-            data = ms.GetBuffer();
+            FileMemOptions mem = new FileMemOptions(name, ms);
+            //Recieving file if exists
+            csv = this.sender.Send(mem);
+            //Free resources
             ms.Dispose();
             ms.Close();
             fs.Dispose();
             fs.Close();
-            this.sender.Send(name, data);
-            isCreated = true;
+
+
         }
 
 
+        private void RecievedFiles(CSVFileResult res) {
+
+            foreach (KeyValuePair<string, MemoryStream> r in res.CsvFiles) 
+            {
+                using (FileStream fs = new FileStream(Path.Combine(download, r.Key), FileMode.Create)) {
+
+                    fs.Write(MoveToArray.FromStreamToByte(r.Value)
+                        , 0
+                        , MoveToArray.FromStreamToByte(r.Value).Length);
+
+                }
+                Console.WriteLine($"Created file on path: {Path.Combine(download, r.Key)}");
+            }
+
+            res.Dispose();
+
+        }
+
+        
 
     }
 }

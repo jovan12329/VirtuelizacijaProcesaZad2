@@ -26,12 +26,8 @@ namespace Client.ListeningDir
             this.sender = proxy;
             this.sysDir = new FileSystemWatcher(path);
             this.sysDir.NotifyFilter = NotifyFilters.Attributes
-                                 | NotifyFilters.CreationTime
                                  | NotifyFilters.DirectoryName
                                  | NotifyFilters.FileName
-                                 | NotifyFilters.LastAccess
-                                 | NotifyFilters.LastWrite
-                                 | NotifyFilters.Security
                                  | NotifyFilters.Size;
 
             this.sysDir.Filter = "*.xml";
@@ -75,6 +71,7 @@ namespace Client.ListeningDir
             string value = $"Created:{e.FullPath}";
             Console.WriteLine(value);
             //Additional variables
+            isCreated = true;
             string name = e.Name;
             //Sending files
             CSVFileResult files;
